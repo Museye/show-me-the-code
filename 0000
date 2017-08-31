@@ -1,0 +1,34 @@
+#coding:UTF-8
+#show-me-the-code:0000
+#将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。
+#通过使用PIL模块中的Draw完成
+#参考blog:http://yxnt.github.io/2016/05/15/Pillow-Python3.5/
+#
+#
+#
+from PIL import Image,ImageFont,ImageDraw
+
+SrcFile = 'C:\\Users\\42077\\Desktop\\smtc\\image\\0000.jpg'
+SaveFile = 'C:\\Users\\42077\\Desktop\\smtc\\image\\0000r.jpg'
+
+def AddNumToTmg(SrcFile,SaveFile):
+	 # 打开Imagefile，将其模式转换为RGBA
+	with Image.open(SrcFile).convert('RGBA') as img:
+		# 创建一个新图片，大小和模式直接使用Imagefile的
+		txt = Image.new(img.mode,img.size)
+		# 设置字体和字号
+		font = ImageFont.truetype('msyh.ttc',14)
+		# 编辑txt新图片
+		d = ImageDraw.Draw(txt)
+		# 画一个圆，并且设置为红色
+		d.ellipse((80,0,98,18),('red'))
+		# 增加一个数字，位置要处于上面的圆的中间，内容为2，字体为微软雅黑，填充颜色为白色，最后的fill里面的值可以为色值和颜色名称
+        d.text((85,0),'2',font=font,fill=(255,255,255))
+        temp = Image.alpha_composite(img,txt)
+        out = temp.convert('RGB')
+        out.save(SaveFile)
+        # 展示保存后的图片
+        out.show()
+
+
+AddNumToTmg(SrcFile,SaveFile)
